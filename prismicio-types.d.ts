@@ -232,7 +232,10 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<PageDocumentData>, "page", Lang>;
 
-type ProjectDocumentDataSlicesSlice = ImageBlockSlice | TextBlockSlice;
+type ProjectDocumentDataSlicesSlice =
+  | LinkButtonSlice
+  | ImageBlockSlice
+  | TextBlockSlice;
 
 /**
  * Content for Project documents
@@ -859,6 +862,61 @@ export type ImageBlockSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *LinkButton → Primary*
+ */
+export interface LinkButtonSliceDefaultPrimary {
+  /**
+   * Label field in *LinkButton → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: link_button.primary.label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  label: prismic.KeyTextField;
+
+  /**
+   * Link field in *LinkButton → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: link_button.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Default variation for LinkButton Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LinkButtonSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<LinkButtonSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *LinkButton*
+ */
+type LinkButtonSliceVariation = LinkButtonSliceDefault;
+
+/**
+ * LinkButton Shared Slice
+ *
+ * - **API ID**: `link_button`
+ * - **Description**: LinkButton
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LinkButtonSlice = prismic.SharedSlice<
+  "link_button",
+  LinkButtonSliceVariation
+>;
+
+/**
  * Primary content in *TechList → Primary*
  */
 export interface TechListSliceDefaultPrimary {
@@ -1020,6 +1078,10 @@ declare module "@prismicio/client" {
       ImageBlockSliceDefaultPrimary,
       ImageBlockSliceVariation,
       ImageBlockSliceDefault,
+      LinkButtonSlice,
+      LinkButtonSliceDefaultPrimary,
+      LinkButtonSliceVariation,
+      LinkButtonSliceDefault,
       TechListSlice,
       TechListSliceDefaultPrimary,
       TechListSliceDefaultItem,
