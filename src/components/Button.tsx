@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { KeyTextField, LinkField } from "@prismicio/client";
 
 type ButtonProps = {
-  linkField: LinkField;
+  linkField?: LinkField;
   label: KeyTextField;
   showIcon?: boolean;
   className?: string;
